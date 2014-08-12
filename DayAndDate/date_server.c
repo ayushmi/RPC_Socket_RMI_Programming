@@ -47,7 +47,7 @@ int *
 totaldays_1_svc(date *argp, struct svc_req *rqstp)
 {
 
-	int JDN1 = 1721426; //Julian day number for 01/01/0001
+	long long int JDN1 = 1721426; //Julian day number for 01/01/0001
 	static int  result;
 
 	int day = argp->day;

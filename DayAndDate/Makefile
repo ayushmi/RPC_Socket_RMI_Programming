@@ -22,31 +22,31 @@ date_client.o:
 	gcc -g -DRPC_SVC_FG -c -o date_client.o date_client.c
 
 client1.o:
-	gcc -c client1.c
+	gcc -c -o client1.o client1.c
 
 client2.o:
-	gcc -c client2.c
+	gcc -c -o client2.o client2.c
 
 client3.o:
-	gcc -c client3.c
+	gcc -c -o client3.o client3.c
 
 server: date_server.o date_svc.o date_xdr.o
 	gcc -o server date_server.o date_svc.o date_xdr.o
 
 date_server.o:
-	gcc -c date_server.c
+	gcc -c -o date_server.o date_server.c
 
 date_clnt.o: rpcgen
-	gcc -c date_clnt.c
+	gcc -c -o date_clnt.o date_clnt.c
 
 date_xdr.o: rpcgen
-	gcc -c date_xdr.c
+	gcc -c -o date_xdr.o date_xdr.c
 
-data_svc.o: rpcgen
-	gcc -c date_svc.c
+date_svc.o: rpcgen
+	gcc -c -o date_svc.o date_svc.c
 
 rpcgen:
 	rpcgen date.x
 
 clean:
-	rm -f date_client client1 client2 client3 server date_xdr.c date_clnt.c date_svc.c date.h
+	rm -f date_client client1 client2 client3 server date_xdr.c date_clnt.c date_svc.c date.h *.o
