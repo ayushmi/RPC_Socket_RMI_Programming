@@ -83,6 +83,7 @@ void *startFunction(void *socketnumber)
     			break;
     		}
     		int result = Exit(query);
+            break;
     	}
     }
      
@@ -94,8 +95,6 @@ void *startFunction(void *socketnumber)
     {
         printf("Receive Failed from clien %d",s);
     }
-    //Free the socket pointer
-    free(socketnumber);
     return(0);
 }
 
