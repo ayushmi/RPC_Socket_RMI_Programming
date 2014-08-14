@@ -40,6 +40,7 @@ void *startFunction(void *socketnumber)
     			break;
     		}
     		Search(query, message, myLibrary,nbooks);
+            send(s,message,strlen(message),0);
     	}
     	else if (query[0] == '2')
     	{

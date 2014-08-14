@@ -6,7 +6,7 @@
 
 void PrintMenu()
 {
-	printf("Enter 1 to serach for a book \nEnter 2 to insert a book in library \nEnter 3 to issue a book\nEnter 4 to renew a book\nEnter 5 to reserve a book\nEnter 6 to save server updates.\nEnter 0 to exit");
+	printf("Enter 1 to serach for a book \nEnter 2 to insert a book in library \nEnter 3 to issue a book\nEnter 4 to renew a book\nEnter 5 to reserve a book\nEnter 6 to save server updates.\nEnter 0 to exit\n");
     printf("================================================\n");
 }
 
@@ -27,6 +27,8 @@ void Search(int s)
     	printf("ERROR: Send Failed.. Try Again\n");
         return;
     }
+    r = recv(s,message,1000,0);
+    printf("%s",message);
 
 }
 void Insert(int s)
@@ -77,7 +79,7 @@ int main()
 	struct sockaddr_in server_address; 					//Specifies address family, port number and IP address.
 	server_address.sin_family = AF_INET;
 	server_address.sin_addr.s_addr = inet_addr("127.0.0.1");	//0.0.0.0 as the IP Address
-	server_address.sin_port = htons(8766);					//This is client therefore pick any available port.
+	server_address.sin_port = htons(8123);					//This is client therefore pick any available port.
 
 	//Connect to the server
 	if (connect(s , (struct sockaddr *)&server_address , sizeof(server_address)) < 0)
