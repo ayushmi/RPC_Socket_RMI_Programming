@@ -25,7 +25,6 @@ numberof_1_svc(argp, rqstp)
 
 	int requestedDay = argp->requestedDay;
 
-	//Number of thurdays till second date
 	long long int a1 = (14-month1)/12;
 	long long int y1 = year1 + 4800 - a1;
 	long long int m1 = month1 + 12*a1  - 3;
@@ -34,7 +33,6 @@ numberof_1_svc(argp, rqstp)
 	int dayondate1 = (JDN1-1721426+1)%7;
 	printf("Day on %d/%d/%d : %d \n",day1, month1,year1,dayondate1);
 
-	//Number of thurdays till second date
 	long long int a2 = (14-month2)/12;
 	long long int y2 = year2 + 4800 - a2;
 	long long int m2 = month2 + 12*a2  - 3;

@@ -3,12 +3,100 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <pthread.h>
-#include <library.h>
+#include "library.h"
+#include <string.h>
 
 // This function gets executed in each thread
-void *startFunction(int *socketnumber)
+void *startFunction(void *socketnumber)
 {
+	int s = *(int *)socketnumber;	
+	char message[1000];
 	
+	//Send ACCEPTED to client acknowledge the client about the connection.
+	strcpy(message, "ACCEPTED");
+    send(s , message , strlen(message),0);
+
+    int r;
+    char query[1000];
+    //Wait for client query.....
+    while( (r = recv(s , query , 1000 , 0)) > 0 )
+    {
+
+    	//SEARCH for search, INSERT for insert, ISSUE for issue, RENEW for renew, RESERVE for reserve, EXIT for exit. 
+    	if (query[0] == '1')
+    	{
+    		send(s, "1", strlen("1"),0);
+    		//Receive Book Name in 
+    		r = recv(s,query,1000,0);
+    		if (r==0 || r==-1)
+    		{
+    			break;
+    		}
+    		Search(query, message);
+    	}
+    	else if (query[0] == '2')
+    	{
+    		send(s, "1", strlen("1"),0);
+    		r = recv(s,query,1000,0);
+    		if (r==0 || r==-1)
+    		{
+    			break;
+    		}
+    		int result = Insert(query);
+    	}
+    	else if (query[0] == '3')
+    	{
+    		send(s, "1", strlen("1"),0);
+    		r = recv(s,query,1000,0);
+    		if (r==0 || r==-1)
+    		{
+    			break;
+    		}
+    		int result = Issue(query);
+    	}
+    	else if (query[0] == '4')
+    	{
+    		send(s, "1", strlen("1"),0);
+    		r = recv(s,query,1000,0);
+    		if (r==0 || r==-1)
+    		{
+    			break;
+    		}
+    		int result = Renew(query);
+    	}
+    	else if (query[0] == '5')
+    	{
+    		send(s, "1", strlen("1"),0);
+    		r = recv(s,query,1000,0);
+    		if (r==0 || r==-1)
+    		{
+    			break;
+    		}
+    		int result = Reserve(query);
+    	}
+    	else if (query[0] == '6')
+    	{
+    		send(s, "1", strlen("1"),0);
+    		r = recv(s,query,1000,0);
+    		if (r==0 || r==-1)
+    		{
+    			break;
+    		}
+    		int result = Exit(query);
+    	}
+    }
+     
+    if(r == 0)
+    {
+        printf("Client %d disconnected\n",s );
+    }
+    else if(r == -1)
+    {
+        printf("Receive Failed from clien %d",s);
+    }
+    //Free the socket pointer
+    free(socketnumber);
+    return(0);
 }
 
 int main(int argc, char *argv[])
@@ -38,7 +126,6 @@ int main(int argc, char *argv[])
 
 	//Prepare to bind address to socket s
 	struct sockaddr_in server_address; 					//Specifies address family, port number and IP address.
-	memset((char*)address, 0 , sizeof(address));
 	server_address.sin_family = AF_INET;
 	server_address.sin_addr.s_addr = htonl(INADDR_ANY);	//0.0.0.0 as the IP Address
 	server_address.sin_port = htons(port_number);

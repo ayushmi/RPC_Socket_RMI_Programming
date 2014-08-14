@@ -1,10 +1,16 @@
 
 struct library
 {
-	char name[30],author[30],pub[30],edition[5],isbn[30];
-	char lc[5];
-	char accno[15],bookno[15];
-	char issue_to[20],issue_date[11],due_date[11];
+	char name[30];
+	char issue_to[20];
+	long long int issue_date_JDN[11];
+	long long int due_date_JDN[11];
+	int reserve_flag;
 };
 
-
+void Search(char Book[], char * message);
+int Insert(char Book[]);
+int Issue(char Book[]);
+int Renew(char Book[]);
+int Reserve(char Book[]);
+int Exit();
