@@ -6,7 +6,8 @@
 
 void PrintMenu()
 {
-	printf("Enter 1 to serach for a book, enter \nEnter 2 to insert a book in library \nEnter 3 to issue a book\nEnter 4 to renew a book\nEnter 5 to reserve a book\nEnter 6 to exit the library");
+	printf("Enter 1 to serach for a book \nEnter 2 to insert a book in library \nEnter 3 to issue a book\nEnter 4 to renew a book\nEnter 5 to reserve a book\nEnter 6 to save server updates.\nEnter 0 to exit");
+    printf("================================================\n");
 }
 
 void Search(int s)
@@ -20,7 +21,7 @@ void Search(int s)
     }
     int r = recv(s,message,1000,0);
 	printf("Enter the Book name to Search for: \n");
-	scanf("%s",Book);
+	scanf(" %[^\n]s",Book);
 	if( send(s, Book , strlen(Book) , 0) < 0)
     {
     	printf("ERROR: Send Failed.. Try Again\n");
@@ -44,6 +45,18 @@ void Reserve(int s)
 {
 
 }
+void Save(int s)
+{
+    char Book[1000] = "6";
+    char message[1000];
+    if( send(s, Book , strlen(Book) , 0) < 0)
+    {
+        printf("ERROR: Send Failed.. Try Again\n");
+        return;
+    }
+    int r = recv(s,message,1000,0);
+    printf("Done Saving\n");
+}
 int main()
 {
 	int s; //s will store the socket descriptor
@@ -64,7 +77,7 @@ int main()
 	struct sockaddr_in server_address; 					//Specifies address family, port number and IP address.
 	server_address.sin_family = AF_INET;
 	server_address.sin_addr.s_addr = inet_addr("127.0.0.1");	//0.0.0.0 as the IP Address
-	server_address.sin_port = htons(8765);					//This is client therefore pick any available port.
+	server_address.sin_port = htons(8766);					//This is client therefore pick any available port.
 
 	//Connect to the server
 	if (connect(s , (struct sockaddr *)&server_address , sizeof(server_address)) < 0)
@@ -84,6 +97,7 @@ int main()
 
     printf("Server Coonnection Established\n");
     printf("Welcome to the Library Management Portal: CS632A\n");
+    printf("================================================\n");
     int flag=1;
     while(flag==1)
     {
@@ -97,8 +111,11 @@ int main()
     		case 3: Issue(s); break;
     		case 4: Renew(s); break;
     		case 5: Reserve(s); break;
-    		case 6: flag=0; break;
+    		case 6: Save(s); break;
+            case 0: flag=0; break;
     		default: printf("ERROR: Wrong Choice\n");break;  
     	}
     }
+    strcpy(message,"7");
+    send(s,message,strlen(message),0);
 }

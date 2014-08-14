@@ -6,6 +6,13 @@
 #include "library.h"
 #include <string.h>
 
+
+
+struct library * myLibrary;
+int readers=0;
+int writers=0;
+int *nbooks;
+
 // This function gets executed in each thread
 void *startFunction(void *socketnumber)
 {
@@ -32,7 +39,7 @@ void *startFunction(void *socketnumber)
     		{
     			break;
     		}
-    		Search(query, message);
+    		Search(query, message, myLibrary,nbooks);
     	}
     	else if (query[0] == '2')
     	{
@@ -42,7 +49,7 @@ void *startFunction(void *socketnumber)
     		{
     			break;
     		}
-    		int result = Insert(query);
+    		int result = Insert(query,myLibrary,nbooks);
     	}
     	else if (query[0] == '3')
     	{
@@ -52,7 +59,7 @@ void *startFunction(void *socketnumber)
     		{
     			break;
     		}
-    		int result = Issue(query);
+    		int result = Issue(query,myLibrary,nbooks);
     	}
     	else if (query[0] == '4')
     	{
@@ -62,7 +69,7 @@ void *startFunction(void *socketnumber)
     		{
     			break;
     		}
-    		int result = Renew(query);
+    		int result = Renew(query,myLibrary,nbooks);
     	}
     	else if (query[0] == '5')
     	{
@@ -72,19 +79,17 @@ void *startFunction(void *socketnumber)
     		{
     			break;
     		}
-    		int result = Reserve(query);
+    		int result = Reserve(query,myLibrary,nbooks);
     	}
     	else if (query[0] == '6')
     	{
-    		send(s, "1", strlen("1"),0);
-    		r = recv(s,query,1000,0);
-    		if (r==0 || r==-1)
-    		{
-    			break;
-    		}
-    		int result = Exit(query);
+            send(s, "1", strlen("1"),0);
+            int result = Exit(myLibrary,nbooks);
+        }
+        else if (query[0] == '7')
+        {
             break;
-    	}
+        }
     }
      
     if(r == 0)
@@ -95,6 +100,7 @@ void *startFunction(void *socketnumber)
     {
         printf("Receive Failed from clien %d",s);
     }
+    printf("Client %d disconnected\n",s );
     return(0);
 }
 
@@ -139,7 +145,46 @@ int main(int argc, char *argv[])
 	//Start Listening
 	listen(s,5); //queue size is 5.
 
-	//Prepare to start accepting connections
+
+    // Load the library
+    printf("Loading the library\n");
+	myLibrary=NULL;
+    FILE *fp;
+    fp = fopen("data","r");
+    int nb;
+    fscanf(fp,"%d",&nb);
+    nbooks = &nb;
+    if (*nbooks == 0)
+    {
+        printf("No Books in the library...\n");
+    }
+    int i;
+    struct library *iter=NULL;
+    for (i = 0; i < *nbooks; ++i)
+    {
+        struct library *temp;
+        temp = malloc(sizeof(struct library));
+        if (i == 0)
+        {
+            myLibrary=temp;
+            iter = temp;
+        }
+        else
+        {
+            iter->next = temp;
+            iter = temp; 
+        }
+        fscanf(fp," %[^\n]s",temp->name);
+        fscanf(fp,"%d",&(temp->issued_flag));
+        fscanf(fp,"%d",&(temp->reserve_flag));
+        temp->next = NULL;
+        printf("Loaded Book: %s with issued_flag=%d, reserve_flag=%d\n",temp->name,temp->issued_flag,temp->reserve_flag );
+    }
+    printf("Loading Complete!!!!\n");
+    fclose(fp);
+
+
+    //Prepare to start accepting connections
 	int clientSize = sizeof(struct sockaddr_in);
 	int clientsocket;
 	int *socketnumber;
@@ -162,4 +207,5 @@ int main(int argc, char *argv[])
 			exit(1);
 		}
 	}
+    Exit(myLibrary,nbooks);
 }
