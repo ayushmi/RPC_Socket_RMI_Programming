@@ -35,6 +35,7 @@ void *startFunction(void *socketnumber)
     		send(s, "1", strlen("1"),0);
     		//Receive Book Name in 
     		r = recv(s,query,1000,0);
+            query[r] = '\0';
     		if (r==0 || r==-1)
     		{
     			break;

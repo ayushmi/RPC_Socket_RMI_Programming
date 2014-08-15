@@ -22,14 +22,18 @@ void Search(int s)
     int r = recv(s,message,1000,0);
 	printf("Enter the Book name to Search for: \n");
 	scanf(" %[^\n]s",Book);
-	if( send(s, Book , strlen(Book) , 0) < 0)
+    Book[strlen(Book)] = '\0';
+    if( send(s, Book , strlen(Book) , 0) < 0)
     {
     	printf("ERROR: Send Failed.. Try Again\n");
         return;
     }
+    message[0] = '\0';
     r = recv(s,message,1000,0);
-    printf("%s",message);
-
+    message[r] = '\0';
+    printf("%s\n",message);
+    printf("\n");
+    printf("================================================\n");
 }
 void Insert(int s)
 {

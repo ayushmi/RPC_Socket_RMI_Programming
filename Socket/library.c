@@ -21,11 +21,11 @@ void Search(char Book[], char * message,struct library* myLibrary, int *nbooks)
 		}
 		temp = temp->next;
 	}
-	strcat(message,"\0");
 	if (flag==0)
 	{
-		strcpy(message,"No Such Book Found\n\0");
+		strcpy(message,"No Such Book Found\n");
 	}
+	printf("%s\n",message);
 }
 int Insert(char Book[],struct library* myLibrary, int *nbooks)
 {
