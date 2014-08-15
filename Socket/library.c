@@ -84,6 +84,26 @@ int Renew(int id,char * message,struct library* myLibrary, int *nbooks)
 }
 int Reserve(int id,char * message,struct library* myLibrary, int *nbooks)
 {
+	printf("Reserving Book\n");
+	int i;
+	struct library *temp = myLibrary;
+	for (i = 0; i < *nbooks; ++i)
+	{
+		if (temp->bookid == id)
+		{
+			if (!(temp->issued_flag))
+			{
+				strcpy(message,"ERROR: Reserve Failed, book is not yet issued. You can issue book.\n");
+			}
+			else
+			{
+				temp->reserve_flag += 1;
+				strcpy(message,"Book Successfully Reseved - You will get to read it soon!!!\n");
+			}
+		}
+		temp = temp->next;
+	}
+	printf("%s\n",message);
 	return(1);
 }
 int Exit(struct library* myLibrary, int *nbooks)
