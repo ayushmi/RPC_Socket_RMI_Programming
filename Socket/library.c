@@ -54,15 +54,35 @@ struct library* Insert(char Book[],struct library* myLibrary, int *nbooks)
 	printf("Inserted Book %s to library\n",myLibrary->name);
 	return(myLibrary);
 }
-int Issue(char Book[],struct library* myLibrary, int *nbooks)
+int Issue(int id,char * message,struct library* myLibrary, int *nbooks)
 {
+	printf("Issuing Book\n");
+	int i;
+	struct library *temp = myLibrary;
+	for (i = 0; i < *nbooks; ++i)
+	{
+		if (temp->bookid == id)
+		{
+			if (temp->issued_flag)
+			{
+				strcpy(message,"ERROR: Issued Failed, book is already issued\n");
+			}
+			else
+			{
+				temp->issued_flag = 1;
+				strcpy(message,"Book Successfully Issued - Enjoy Reading!!!\n");
+			}
+		}
+		temp = temp->next;
+	}
+	printf("%s\n",message);
 	return(1);	
 }
-int Renew(char Book[],struct library* myLibrary, int *nbooks)
+int Renew(int id,char * message,struct library* myLibrary, int *nbooks)
 {
 	return(1);
 }
-int Reserve(char Book[],struct library* myLibrary, int *nbooks)
+int Reserve(int id,char * message,struct library* myLibrary, int *nbooks)
 {
 	return(1);
 }

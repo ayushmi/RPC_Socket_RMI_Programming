@@ -74,7 +74,8 @@ void *startFunction(void *socketnumber)
     		{
     			break;
     		}
-    		int result = Issue(query,myLibrary,nbooks);
+    		int result = Issue(atoi(query),message,myLibrary,nbooks);            
+            send(s,message,strlen(message),0);
     	}
     	else if (query[0] == '4')
     	{
@@ -84,7 +85,8 @@ void *startFunction(void *socketnumber)
     		{
     			break;
     		}
-    		int result = Renew(query,myLibrary,nbooks);
+    		int result = Renew(atoi(query),message,myLibrary,nbooks);
+            send(s,message,strlen(message),0);
     	}
     	else if (query[0] == '5')
     	{
@@ -94,10 +96,13 @@ void *startFunction(void *socketnumber)
     		{
     			break;
     		}
-    		int result = Reserve(query,myLibrary,nbooks);
+    		int result = Reserve(atoi(query),message,myLibrary,nbooks);
+            send(s,message,strlen(message),0);
     	}
     	else if (query[0] == '6')
     	{
+            writers++;
+            int thisWriter = turns++;
             send(s, "1", strlen("1"),0);
             int result = Exit(myLibrary,nbooks);
         }

@@ -34,7 +34,6 @@ void Search(int s)
     r = recv(s,message,1000,0);
     message[r] = '\0';
     printf("%s\n",message);
-    printf("\n");
     printf("================================================\n");
 }
 void Insert(int s)
@@ -59,7 +58,28 @@ void Insert(int s)
 }
 void Issue(int s)
 {
-
+    char Book[1000] = "3";
+    char message[1000];
+    if( send(s, Book , strlen(Book) , 0) < 0)
+    {
+        printf("ERROR: Send Failed.. Try Again\n");
+        return;
+    }
+    int r = recv(s,message,1000,0);
+    printf("Enter the id of Book: \n");
+    int id;
+    scanf("%d",&id);
+    sprintf(Book,"%d",id);
+    Book[strlen(Book)] = '\0';
+    if( send(s, Book , strlen(Book) , 0) < 0)
+    {
+        printf("ERROR: Send Failed.. Try Again\n");
+        return;
+    }
+    message[0] = '\0';
+    r = recv(s,message,1000,0);
+    message[r] = '\0';
+    printf("%s\n",message);
 }
 void Renew(int s)
 {
