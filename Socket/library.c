@@ -13,9 +13,20 @@ void Search(char Book[], char * message,struct library* myLibrary, int *nbooks)
 	strcpy(message,"Search Result:\n");
 	for (i = 0; i < *nbooks; ++i)
 	{
+		if (i==0)
+		{
+			strcat(message, "id\t----\tIssued?\t----\tBook Name\n");
+		}
 		if(KMPSearch(Book,temp->name))
 		{
 			flag=1;
+			char str[100];
+			sprintf(str,"%d",temp->bookid);
+			strcat(message,str);
+			strcat(message,"\t----\t");
+			if (temp->issued_flag) strcat(message,"YES");
+			else strcat(message,"NO");
+			strcat(message,"\t----\t");
 			strcat(message,temp->name);
 			strcat(message,"\n");
 		}
@@ -37,10 +48,11 @@ struct library* Insert(char Book[],struct library* myLibrary, int *nbooks)
 	*nbooks = *nbooks +1;
 	struct library *temp = myLibrary;
 	myLibrary = tempBook;
+	tempBook->bookid = *nbooks;
 	tempBook->next = temp;
 	temp = myLibrary;
 	printf("Inserted Book %s to library\n",myLibrary->name);
-	return(myLibrary);		
+	return(myLibrary);
 }
 int Issue(char Book[],struct library* myLibrary, int *nbooks)
 {
@@ -66,6 +78,7 @@ int Exit(struct library* myLibrary, int *nbooks)
 		fprintf(fp, "%s\n",temp->name);
 		fprintf(fp, "%d\n",temp->issued_flag);
 		fprintf(fp, "%d\n",temp->reserve_flag);
+		fprintf(fp, "%d\n",temp->bookid);
 		temp = temp->next;
 	}
 	fclose(fp);

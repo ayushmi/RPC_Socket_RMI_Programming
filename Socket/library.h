@@ -5,6 +5,7 @@ struct library
 	int issued_flag;
 	int reserve_flag;
 	struct library *next;
+	int bookid;
 };
 
 void Search(char Book[], char * message, struct library* myLibrary, int *nbooks);

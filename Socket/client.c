@@ -8,6 +8,8 @@ void PrintMenu()
 {
 	printf("Enter 1 to serach for a book \nEnter 2 to insert a book in library \nEnter 3 to issue a book\nEnter 4 to renew a book\nEnter 5 to reserve a book\nEnter 6 to save server updates.\nEnter 0 to exit\n");
     printf("================================================\n");
+    printf("Use id for issuing, renewing or reissueing book\n");
+    printf("================================================\n");
 }
 
 void Search(int s)
@@ -83,6 +85,10 @@ int main()
 {
 	int s; //s will store the socket descriptor
 
+    int portnumber;
+    printf("Enter Port number:");
+    scanf("%d",&portnumber);
+
 	//Create Socket,
 	//--- IPV4 Family
 	//--- SOCK_STREAM virtual circuit service
@@ -99,7 +105,7 @@ int main()
 	struct sockaddr_in server_address; 					//Specifies address family, port number and IP address.
 	server_address.sin_family = AF_INET;
 	server_address.sin_addr.s_addr = inet_addr("127.0.0.1");	//0.0.0.0 as the IP Address
-	server_address.sin_port = htons(8223);					//This is client therefore pick any available port.
+	server_address.sin_port = htons(portnumber);					//This is client therefore pick any available port.
 
 	//Connect to the server
 	if (connect(s , (struct sockaddr *)&server_address , sizeof(server_address)) < 0)

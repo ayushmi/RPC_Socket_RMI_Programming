@@ -192,6 +192,7 @@ int main(int argc, char *argv[])
         fscanf(fp," %[^\n]s",temp->name);
         fscanf(fp,"%d",&(temp->issued_flag));
         fscanf(fp,"%d",&(temp->reserve_flag));
+        fscanf(fp,"%d",&(temp->bookid));
         temp->next = NULL;
         printf("Loaded Book: %s with issued_flag=%d, reserve_flag=%d\n",temp->name,temp->issued_flag,temp->reserve_flag );
     }
