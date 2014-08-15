@@ -27,14 +27,20 @@ void Search(char Book[], char * message,struct library* myLibrary, int *nbooks)
 	}
 	printf("%s\n",message);
 }
-int Insert(char Book[],struct library* myLibrary, int *nbooks)
+struct library* Insert(char Book[],struct library* myLibrary, int *nbooks)
 {
 	struct library *tempBook;
-	tempBook = malloc(sizeof(struct library));
+	tempBook = (struct library*)malloc(sizeof(struct library));
 	strcpy(tempBook->name, Book);
 	tempBook->issued_flag = 0;
 	tempBook->reserve_flag=0;
-	return(1);		
+	*nbooks = *nbooks +1;
+	struct library *temp = myLibrary;
+	myLibrary = tempBook;
+	tempBook->next = temp;
+	temp = myLibrary;
+	printf("Inserted Book %s to library\n",myLibrary->name);
+	return(myLibrary);		
 }
 int Issue(char Book[],struct library* myLibrary, int *nbooks)
 {

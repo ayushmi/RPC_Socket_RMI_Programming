@@ -12,7 +12,8 @@ struct library * myLibrary;
 int readers=0;
 int writers=0;
 int *nbooks;
-
+int turns = 0;
+int turn = 0;
 // This function gets executed in each thread
 void *startFunction(void *socketnumber)
 {
@@ -32,6 +33,9 @@ void *startFunction(void *socketnumber)
     	//SEARCH for search, INSERT for insert, ISSUE for issue, RENEW for renew, RESERVE for reserve, EXIT for exit. 
     	if (query[0] == '1')
     	{
+            //If writer is greater than 0 then donot allow any readers to enter.
+            while(writers>0);
+            readers++;
     		send(s, "1", strlen("1"),0);
     		//Receive Book Name in 
     		r = recv(s,query,1000,0);
@@ -42,16 +46,25 @@ void *startFunction(void *socketnumber)
     		}
     		Search(query, message, myLibrary,nbooks);
             send(s,message,strlen(message),0);
+            readers--;
     	}
     	else if (query[0] == '2')
     	{
+            writers++;
+            int thisWriter = turns++;
+            //Wait for all the earliar readers to finish
+            while(readers>0 || turn != thisWriter);//Do Nothing
     		send(s, "1", strlen("1"),0);
     		r = recv(s,query,1000,0);
+            query[r] = '\0';
     		if (r==0 || r==-1)
     		{
     			break;
     		}
-    		int result = Insert(query,myLibrary,nbooks);
+    		myLibrary = Insert(query,myLibrary,nbooks);
+            send(s,"1",strlen("1"),0);
+            writers--;
+            turn++;
     	}
     	else if (query[0] == '3')
     	{
@@ -165,7 +178,7 @@ int main(int argc, char *argv[])
     for (i = 0; i < *nbooks; ++i)
     {
         struct library *temp;
-        temp = malloc(sizeof(struct library));
+        temp = (struct library*)malloc(sizeof(struct library));
         if (i == 0)
         {
             myLibrary=temp;
