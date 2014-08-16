@@ -80,6 +80,33 @@ int Issue(int id,char * message,struct library* myLibrary, int *nbooks)
 }
 int Renew(int id,char * message,struct library* myLibrary, int *nbooks)
 {
+	printf("Renewing Book\n");
+	int i;
+	struct library *temp = myLibrary;
+	for (i = 0; i < *nbooks; ++i)
+	{
+		if (temp->bookid == id)
+		{
+			if ((temp->reserve_flag))
+			{
+				strcpy(message,"ERROR: Renewal Failed, book is reserved by someone. Please return the book.\n");
+			}
+			else
+			{
+				if (temp->issued_flag)
+				{
+					strcpy(message,"Book Successfully Renewed - Keep Reading!!!\n");
+				}
+				else
+				{
+					strcpy(message,"ERROR: Book Renewal Failed, book is not issued yet\n");
+				}
+			}
+			i = *nbooks;
+		}
+		temp = temp->next;
+	}
+	printf("%s\n",message);
 	return(1);
 }
 int Reserve(int id,char * message,struct library* myLibrary, int *nbooks)
@@ -100,6 +127,7 @@ int Reserve(int id,char * message,struct library* myLibrary, int *nbooks)
 				temp->reserve_flag += 1;
 				strcpy(message,"Book Successfully Reseved - You will get to read it soon!!!\n");
 			}
+			i = *nbooks;
 		}
 		temp = temp->next;
 	}
