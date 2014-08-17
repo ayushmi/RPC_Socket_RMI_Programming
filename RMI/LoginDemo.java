@@ -19,6 +19,9 @@ class LoginDemo extends JFrame{
   }
   setTitle("Login Form");
   setLayout(null);
+
+  setFocusable(true);// INSERT THIS
+  setBackground(Color.blue);
   label1 = new JLabel();
   label1.setText("Username:");
   text1 = new JTextField(15);

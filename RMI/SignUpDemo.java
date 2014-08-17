@@ -19,6 +19,9 @@ class SignUpDemo extends JFrame{
     }
   setTitle("SignUp Form");
   setLayout(null);
+
+  setFocusable(true);// INSERT THIS
+  setBackground(Color.red);
   label1 = new JLabel();
   label1.setText("Username:");
   text1 = new JTextField(15);
