@@ -258,7 +258,7 @@ public class Rooms extends UnicastRemoteObject implements RoomInterface {
 			c.commit();
 			c.close();
 		} catch ( Exception e ) {
-			message = e.getClass().getName() + ": " + e.getMessage();
+			//message = e.getClass().getName() + ": " + e.getMessage();
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			
 		}
