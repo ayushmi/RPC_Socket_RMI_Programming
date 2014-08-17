@@ -12,6 +12,7 @@ public class RoomServer {
           System.out.println("Server is running...");
           
       } catch(Exception e) {
-          System.out.println("Hello Server failed: " + e);
-} }
+          System.out.println("Room Server failed: " + e);
+      }
+    }
 }
