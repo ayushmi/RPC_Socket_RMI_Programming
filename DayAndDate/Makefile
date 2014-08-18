@@ -4,7 +4,7 @@
 # --------------------
 # Makefile
 
-all: rpcgen date_client
+all: rpcgen date_client remove
 
 date_client: date_client.o date_clnt.o date_xdr.o
 	gcc -o date_client date_client.o date_clnt.o date_xdr.o
@@ -20,6 +20,9 @@ date_xdr.o: rpcgen
 
 rpcgen:
 	rpcgen date.x
+
+remove:
+	rm -f date_xdr.c date_clnt.c date_svc.c date.h *.o
 
 clean:
 	rm -f date_client date_xdr.c date_clnt.c date.h *.o
