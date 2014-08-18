@@ -11,7 +11,7 @@ struct date{
 	int year;
 };
 
-program DATEPROG{
+program DATEPROG1{
 	version SIMP_VERSION {
 		int NumberOfLeapYears(date) = 1;
 	} = 1;

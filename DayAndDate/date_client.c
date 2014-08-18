@@ -8,31 +8,18 @@
 #include<stdio.h>
 #include<stdlib.h>
 
+
 void
-dateprog_1( char* host, int day, int month, int year )
+dateprog1_1(char * host, int day, int month , int year)
 {
 	CLIENT *clnt;
-	//For first function
 	int  *result_1;
 	date  numberofleapyears_1_arg;
-	numberofleapyears_1_arg.day = day;
-	numberofleapyears_1_arg.month = month;
-	numberofleapyears_1_arg.year = year;
+        numberofleapyears_1_arg.day = day;
+        numberofleapyears_1_arg.month = month;
+        numberofleapyears_1_arg.year = year;
 
-	//for second function
-	int  *result_2;
-	date  totaldays_1_arg;
-	totaldays_1_arg.day = day;
-	totaldays_1_arg.month = month;
-	totaldays_1_arg.year = year;
-
-	//For third function
-	int  *result_3;
-	date  findday_1_arg;
-	findday_1_arg.day = day;
-	findday_1_arg.month = month;
-	findday_1_arg.year = year;
-	clnt = clnt_create(host, DATEPROG, SIMP_VERSION, "udp");
+	clnt = clnt_create(host, DATEPROG1, SIMP_VERSION, "udp");
 	if (clnt == NULL) {
 		clnt_pcreateerror(host);
 		exit(1);
@@ -41,22 +28,60 @@ dateprog_1( char* host, int day, int month, int year )
 	if (result_1 == NULL) {
 		clnt_perror(clnt, "call failed:");
 	}
-	printf("Result 1: %d\n", *result_1);
-	result_2 = totaldays_1(&totaldays_1_arg, clnt);
-	if (result_2 == NULL) {
-		clnt_perror(clnt, "call failed:");
-	}
-	printf("Result 2: %d\n", *result_2);
-	result_3 = findday_1(&findday_1_arg, clnt);
-	if (result_3 == NULL) {
-		clnt_perror(clnt, "call failed:");
-	}
-	printf("Result 3: %d\n", *result_3	);
+	printf("%d\n",*result_1);
 	clnt_destroy( clnt );
 }
 
 
-int main( int argc, char* argv[] )
+void
+dateprog2_1(char* host, int day, int month, int year)
+{
+	CLIENT *clnt;
+	int  *result_1;
+	date  totaldays_1_arg;
+        totaldays_1_arg.day = day;
+        totaldays_1_arg.month = month;
+        totaldays_1_arg.year = year;	
+	clnt = clnt_create(host, DATEPROG2, SIMP_VERSION, "udp");
+	if (clnt == NULL) {
+		clnt_pcreateerror(host);
+		exit(1);
+	}
+	result_1 = totaldays_1(&totaldays_1_arg, clnt);
+	if (result_1 == NULL) {
+		clnt_perror(clnt, "call failed:");
+	}
+	printf("%d\n",*result_1);
+	clnt_destroy( clnt );
+}
+
+
+void
+dateprog3_1(char *host,int day, int month, int year)
+{
+	CLIENT *clnt;
+	int  *result_1;
+	date  findday_1_arg;
+        findday_1_arg.day = day;
+        findday_1_arg.month = month;
+        findday_1_arg.year = year;	
+	clnt = clnt_create(host, DATEPROG3, SIMP_VERSION, "udp");
+	if (clnt == NULL) {
+		clnt_pcreateerror(host);
+		exit(1);
+	}
+	result_1 = findday_1(&findday_1_arg, clnt);
+	if (result_1 == NULL) {
+		clnt_perror(clnt, "call failed:");
+	}
+	printf("%d\n",*result_1);
+	clnt_destroy( clnt );
+}
+
+
+int main(argc, argv)
+int argc;
+char *argv[];
 {
 	char *host;
 
@@ -65,11 +90,12 @@ int main( int argc, char* argv[] )
 		exit(1);
 	}
 	host = argv[1];
-	int day, month, year;
-
 	//Input the date.
+        int day, month, year;
 	printf("Enter the day, month and the year:");
-	scanf("%d%d%d",&day,&month,&year);
+        scanf("%d%d%d",&day,&month,&year);
 
-	dateprog_1( host, day, month, year );
+	dateprog1_1( host , day, month, year );
+	dateprog2_1( host , day, month, year );
+	dateprog3_1( host , day, month, year );
 }

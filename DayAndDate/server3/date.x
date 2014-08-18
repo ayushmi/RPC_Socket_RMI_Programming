@@ -11,7 +11,7 @@ struct date{
 	int year;
 };
 
-program DATEPROG{
+program DATEPROG3{
 	version SIMP_VERSION {
 		int FindDay(date) =1;
 	} = 1;

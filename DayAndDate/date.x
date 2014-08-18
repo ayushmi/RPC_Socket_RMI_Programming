@@ -11,10 +11,20 @@ struct date{
 	int year;
 };
 
-program DATEPROG{
+program DATEPROG1{
 	version SIMP_VERSION {
 		int NumberOfLeapYears(date) = 1;
-		int TotalDays(date) = 2;
-		int FindDay(date) =3;
 	} = 1;
 } = 0x5119935;	
+
+program DATEPROG2{
+	version SIMP_VERSION {
+		int TotalDays(date) = 1;
+	} = 1;
+} = 0x5119936;
+
+program DATEPROG3{
+	version SIMP_VERSION {
+		int FindDay(date) =1;
+	} = 1;
+} = 0x5119937;	

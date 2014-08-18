@@ -11,7 +11,7 @@ struct date{
 	int year;
 };
 
-program DATEPROG{
+program DATEPROG2{
 	version SIMP_VERSION {
 		int TotalDays(date) = 1;
 	} = 1;
