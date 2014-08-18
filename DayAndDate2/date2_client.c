@@ -35,13 +35,13 @@ char *argv[];
 {
 	char *host;
 
-	char day[20];
 
 	if(argc < 2) {
 		printf("usage: %s server_host\n", argv[0]);
 		exit(1);
 	}
 	host = argv[1];
+	char day[20];
 
 	date2  temp;
 	int day1,day2, month1, month2, year1, year2;
@@ -51,13 +51,13 @@ char *argv[];
 	scanf("%d%d%d",&day2,&month2,&year2);
 	printf("Enter the day to search for\n");
 	scanf("%s",day);
-
 	temp.day1 = day1;
 	temp.day2 = day2;
 	temp.month1 = month1;
 	temp.month2 = month2;
 	temp.year1 = year1;
 	temp.year2 = year2;
+	
 
 	if (day[0] == 'M')
 	{

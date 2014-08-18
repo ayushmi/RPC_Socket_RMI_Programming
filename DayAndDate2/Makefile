@@ -31,4 +31,4 @@ rpcgen:
 	rpcgen date2.x
 
 clean:
-	rm -f client server date2_xdr.c date2_clnt.c date2_svc.c date2.h *.o
+	rm -f date2_xdr.c date2_clnt.c date2_svc.c date2.h *.o
