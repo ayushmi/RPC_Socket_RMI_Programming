@@ -43,7 +43,6 @@ numberof_1_svc(argp, rqstp)
 		case 6: result=-1; break;
 		case 0: result=-0; break;
 	}	
-
 	long long int a2 = (14-month2)/12;
 	long long int y2 = year2 + 4800 - a2;
 	long long int m2 = month2 + 12*a2  - 3;
@@ -62,10 +61,11 @@ numberof_1_svc(argp, rqstp)
 		case 6: result=result-6; break;
 		case 0: result=result-0; break;
 	}
-
+	
 	result = result+(JDN2-JDN1+1);
 	result = result/7;	
 	if(requestedDay >= dayondate1) result = result+1;
 	if(requestedDay <= dayondate2) result = result+1;
+	
 	return(&result);
 }
